@@ -32,14 +32,18 @@ $(document).ready(function() {
         userData.isAdmin = false;
 
         // ajax call
-        $.post("https://brian-scheduler.herokuapp.com/v1/user", userData, function(res) {
-            console.log(res);
+        // $.post("https://brian-scheduler.herokuapp.com/v1/user", userData, function(res) {
+        //     console.log(res);
+        // });
+
+        $.ajax({
+            type: "POST",
+            url: "https://brian-scheduler.herokuapp.com/v1/user",
+            data: userData,
+            crossDomain: true,
+            success: function(res) {
+                console.log(res);
+            },
         });
     });
-
-    $.get("https://brian-scheduler.herokuapp.com/v1/user/24", function(data) {
-        console.log(data);
-    });
-
-
 });
