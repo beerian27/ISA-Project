@@ -1,6 +1,7 @@
 $(document).ready(function() {
     console.log("ready");
 
+    // Submit button's onclick
     $("#submitBtn").click(function() {
         // Get values of inputs
         let username = $("#usernameInput").val();
@@ -31,19 +32,17 @@ $(document).ready(function() {
         userData.name = name;
         userData.isAdmin = false;
 
-        // ajax call
-        // $.post("https://brian-scheduler.herokuapp.com/v1/user", userData, function(res) {
-        //     console.log(res);
-        // });
-
+        // POST Call for registration
         $.ajax({
             type: "POST",
             url: "https://brian-scheduler.herokuapp.com/v1/user",
-            data: userData,
+            data: JSON.stringify(userData),
             crossDomain: true,
+            contentType: "application/json",
             success: function(res) {
                 console.log(res);
             },
         });
+    
     });
 });
