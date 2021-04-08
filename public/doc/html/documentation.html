@@ -790,6 +790,21 @@ margin-bottom: 20px;
     }
   }
 };
+        defs["UpdateTask"] = {
+  "type" : "object",
+  "properties" : {
+    "taskName" : {
+      "type" : "string"
+    },
+    "taskDescription" : {
+      "type" : "string"
+    },
+    "isComplete" : {
+      "type" : "boolean",
+      "default" : false
+    }
+  }
+};
         defs["User"] = {
   "type" : "object",
   "properties" : {
@@ -1512,7 +1527,7 @@ $(document).ready(function() {
                         <p class="marked"></p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/task/complete/{taskID}</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/task/{taskID}/complete</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -1532,7 +1547,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Task-completeTask-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT "https://brian-scheduler.herokuapp.com/v1/task/complete/{taskID}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT "https://brian-scheduler.herokuapp.com/v1/task/{taskID}/complete"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Task-completeTask-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1548,7 +1563,7 @@ public class TaskApiExample {
     public static void main(String[] args) {
         
         TaskApi apiInstance = new TaskApi();
-        Integer taskID = 56; // Integer | ID of the order that needs to be deleted
+        Integer taskID = 56; // Integer | ID of the task to mark complete
         try {
             apiInstance.completeTask(taskID);
         } catch (ApiException e) {
@@ -1566,7 +1581,7 @@ public class TaskApiExample {
 
     public static void main(String[] args) {
         TaskApi apiInstance = new TaskApi();
-        Integer taskID = 56; // Integer | ID of the order that needs to be deleted
+        Integer taskID = 56; // Integer | ID of the task to mark complete
         try {
             apiInstance.completeTask(taskID);
         } catch (ApiException e) {
@@ -1581,7 +1596,7 @@ public class TaskApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Task-completeTask-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Integer *taskID = 56; // ID of the order that needs to be deleted
+                              <pre class="prettyprint"><code class="language-cpp">Integer *taskID = 56; // ID of the task to mark complete
 
 TaskApi *apiInstance = [[TaskApi alloc] init];
 
@@ -1600,7 +1615,7 @@ TaskApi *apiInstance = [[TaskApi alloc] init];
 
 var api = new BrianScheduler.TaskApi()
 
-var taskID = 56; // {Integer} ID of the order that needs to be deleted
+var taskID = 56; // {Integer} ID of the task to mark complete
 
 
 var callback = function(error, data, response) {
@@ -1632,7 +1647,7 @@ namespace Example
         {
             
             var apiInstance = new TaskApi();
-            var taskID = 56;  // Integer | ID of the order that needs to be deleted
+            var taskID = 56;  // Integer | ID of the task to mark complete
 
             try
             {
@@ -1654,7 +1669,7 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\TaskApi();
-$taskID = 56; // Integer | ID of the order that needs to be deleted
+$taskID = 56; // Integer | ID of the task to mark complete
 
 try {
     $api_instance->completeTask($taskID);
@@ -1670,7 +1685,7 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::TaskApi;
 
 my $api_instance = WWW::SwaggerClient::TaskApi->new();
-my $taskID = 56; # Integer | ID of the order that needs to be deleted
+my $taskID = 56; # Integer | ID of the task to mark complete
 
 eval { 
     $api_instance->completeTask(taskID => $taskID);
@@ -1689,7 +1704,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.TaskApi()
-taskID = 56 # Integer | ID of the order that needs to be deleted
+taskID = 56 # Integer | ID of the task to mark complete
 
 try: 
     # Mark a task complete
@@ -1719,7 +1734,7 @@ except ApiException as e:
                 </span>
 
                     <div class="inner description">
-                        ID of the order that needs to be deleted
+                        ID of the task to mark complete
                     </div>
             </div>
                 <div class="inner required">
@@ -2010,6 +2025,14 @@ except ApiException as e:
 
                           <h2>Responses</h2>
                             <h3> Status: 200 - Successful operation </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 400 - Invalid parameter </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2377,7 +2400,7 @@ public class TaskApiExample {
         
         TaskApi apiInstance = new TaskApi();
         Integer taskID = 56; // Integer | ID of the task to be changed
-        Task body = ; // Task | New body of the task
+        UpdateTask body = ; // UpdateTask | New body of the task
         try {
             apiInstance.updateTask(taskID, body);
         } catch (ApiException e) {
@@ -2396,7 +2419,7 @@ public class TaskApiExample {
     public static void main(String[] args) {
         TaskApi apiInstance = new TaskApi();
         Integer taskID = 56; // Integer | ID of the task to be changed
-        Task body = ; // Task | New body of the task
+        UpdateTask body = ; // UpdateTask | New body of the task
         try {
             apiInstance.updateTask(taskID, body);
         } catch (ApiException e) {
@@ -2412,7 +2435,7 @@ public class TaskApiExample {
   </div> -->
                             <div class="tab-pane" id="examples-Task-updateTask-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Integer *taskID = 56; // ID of the task to be changed
-Task *body = ; // New body of the task
+UpdateTask *body = ; // New body of the task
 
 TaskApi *apiInstance = [[TaskApi alloc] init];
 
@@ -2434,7 +2457,7 @@ var api = new BrianScheduler.TaskApi()
 
 var taskID = 56; // {Integer} ID of the task to be changed
 
-var body = ; // {Task} New body of the task
+var body = ; // {UpdateTask} New body of the task
 
 
 var callback = function(error, data, response) {
@@ -2467,7 +2490,7 @@ namespace Example
             
             var apiInstance = new TaskApi();
             var taskID = 56;  // Integer | ID of the task to be changed
-            var body = new Task(); // Task | New body of the task
+            var body = new UpdateTask(); // UpdateTask | New body of the task
 
             try
             {
@@ -2490,7 +2513,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\TaskApi();
 $taskID = 56; // Integer | ID of the task to be changed
-$body = ; // Task | New body of the task
+$body = ; // UpdateTask | New body of the task
 
 try {
     $api_instance->updateTask($taskID, $body);
@@ -2507,7 +2530,7 @@ use WWW::SwaggerClient::TaskApi;
 
 my $api_instance = WWW::SwaggerClient::TaskApi->new();
 my $taskID = 56; # Integer | ID of the task to be changed
-my $body = WWW::SwaggerClient::Object::Task->new(); # Task | New body of the task
+my $body = WWW::SwaggerClient::Object::UpdateTask->new(); # UpdateTask | New body of the task
 
 eval { 
     $api_instance->updateTask(taskID => $taskID, body => $body);
@@ -2527,7 +2550,7 @@ from pprint import pprint
 # create an instance of the API class
 api_instance = swagger_client.TaskApi()
 taskID = 56 # Integer | ID of the task to be changed
-body =  # Task | New body of the task
+body =  # UpdateTask | New body of the task
 
 try: 
     # Update an existing task
@@ -2589,7 +2612,7 @@ $(document).ready(function() {
   "description" : "New body of the task",
   "required" : true,
   "schema" : {
-    "$ref" : "#/definitions/Task"
+    "$ref" : "#/definitions/UpdateTask"
   }
 };
   var schema = schemaWrapper.schema;
@@ -3594,7 +3617,7 @@ public class TaskListApiExample {
     public static void main(String[] args) {
         
         TaskListApi apiInstance = new TaskListApi();
-        NewTaskList body = ; // NewTaskList | User to get tasks for
+        NewTaskList body = ; // NewTaskList | 
         try {
             TaskList result = apiInstance.getTaskListYesterday(body);
             System.out.println(result);
@@ -3613,7 +3636,7 @@ public class TaskListApiExample {
 
     public static void main(String[] args) {
         TaskListApi apiInstance = new TaskListApi();
-        NewTaskList body = ; // NewTaskList | User to get tasks for
+        NewTaskList body = ; // NewTaskList | 
         try {
             TaskList result = apiInstance.getTaskListYesterday(body);
             System.out.println(result);
@@ -3629,7 +3652,7 @@ public class TaskListApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-TaskList-getTaskListYesterday-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">NewTaskList *body = ; // User to get tasks for
+                              <pre class="prettyprint"><code class="language-cpp">NewTaskList *body = ; // 
 
 TaskListApi *apiInstance = [[TaskListApi alloc] init];
 
@@ -3651,7 +3674,7 @@ TaskListApi *apiInstance = [[TaskListApi alloc] init];
 
 var api = new BrianScheduler.TaskListApi()
 
-var body = ; // {NewTaskList} User to get tasks for
+var body = ; // {NewTaskList} 
 
 
 var callback = function(error, data, response) {
@@ -3683,7 +3706,7 @@ namespace Example
         {
             
             var apiInstance = new TaskListApi();
-            var body = new NewTaskList(); // NewTaskList | User to get tasks for
+            var body = new NewTaskList(); // NewTaskList | 
 
             try
             {
@@ -3706,7 +3729,7 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\TaskListApi();
-$body = ; // NewTaskList | User to get tasks for
+$body = ; // NewTaskList | 
 
 try {
     $result = $api_instance->getTaskListYesterday($body);
@@ -3723,7 +3746,7 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::TaskListApi;
 
 my $api_instance = WWW::SwaggerClient::TaskListApi->new();
-my $body = WWW::SwaggerClient::Object::NewTaskList->new(); # NewTaskList | User to get tasks for
+my $body = WWW::SwaggerClient::Object::NewTaskList->new(); # NewTaskList | 
 
 eval { 
     my $result = $api_instance->getTaskListYesterday(body => $body);
@@ -3743,7 +3766,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.TaskListApi()
-body =  # NewTaskList | User to get tasks for
+body =  # NewTaskList | 
 
 try: 
     # Retrieve the yesterday's task list
@@ -3773,7 +3796,6 @@ $(document).ready(function() {
   var schemaWrapper = {
   "in" : "body",
   "name" : "body",
-  "description" : "User to get tasks for",
   "required" : true,
   "schema" : {
     "$ref" : "#/definitions/NewTaskList"
