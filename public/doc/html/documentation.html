@@ -1186,7 +1186,15 @@ $(document).ready(function() {
                                 </div>
                             </div>
 
-                            <h3> Status: 401 - Admins only </h3>
+                            <h3> Status: 401 - Not authenticated </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 403 - Not authorized </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -1473,6 +1481,14 @@ $(document).ready(function() {
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
+                            <h3> Status: 401 - Not authenticated </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                             <h3> Status: 500 - Server error </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
@@ -1729,7 +1745,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 401 - Invalid user </h3>
+                            <h3> Status: 401 - Not authenticated </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -1737,7 +1753,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 404 - Task not found </h3>
+                            <h3> Status: 404 - Not found </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2001,7 +2017,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 401 - Not authorized to delete that task </h3>
+                            <h3> Status: 401 - Not authenticated </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2009,7 +2025,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 404 - Task not found </h3>
+                            <h3> Status: 404 - Not found </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2286,6 +2302,14 @@ $(document).ready(function() {
                             </div>
 
                             <h3> Status: 400 - Invalid input </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 401 - Not authenticated </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2609,7 +2633,7 @@ $(document).ready(function() {
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 404 - Task not found </h3>
+                            <h3> Status: 401 - Not authenticated </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2617,7 +2641,7 @@ $(document).ready(function() {
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 405 - Task cannot be changed </h3>
+                            <h3> Status: 404 - Not found </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2904,6 +2928,14 @@ $(document).ready(function() {
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
+                            <h3> Status: 401 - Not authenticated </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                             <h3> Status: 500 - Server error </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
@@ -3168,7 +3200,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 404 - Task list not found </h3>
+                            <h3> Status: 404 - Not found </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -3270,7 +3302,7 @@ public class TaskListApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-TaskList-getTaskList-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">NewTaskList *body = ; //  (optional)
+                              <pre class="prettyprint"><code class="language-cpp">NewTaskList *body = ; // 
 
 TaskListApi *apiInstance = [[TaskListApi alloc] init];
 
@@ -3292,9 +3324,8 @@ TaskListApi *apiInstance = [[TaskListApi alloc] init];
 
 var api = new BrianScheduler.TaskListApi()
 
-var opts = { 
-  'body':  // {NewTaskList} 
-};
+var body = ; // {NewTaskList} 
+
 
 var callback = function(error, data, response) {
   if (error) {
@@ -3303,7 +3334,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.getTaskList(opts, callback);
+api.getTaskList(body, callback);
 </code></pre>
                             </div>
 
@@ -3325,7 +3356,7 @@ namespace Example
         {
             
             var apiInstance = new TaskListApi();
-            var body = new NewTaskList(); // NewTaskList |  (optional) 
+            var body = new NewTaskList(); // NewTaskList | 
 
             try
             {
@@ -3385,11 +3416,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.TaskListApi()
-body =  # NewTaskList |  (optional)
+body =  # NewTaskList | 
 
 try: 
     # Retrieve the current day's task list
-    api_response = api_instance.get_task_list(body=body)
+    api_response = api_instance.get_task_list(body)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling TaskListApi->getTaskList: %s\n" % e)</code></pre>
@@ -3406,7 +3437,7 @@ except ApiException as e:
                                 <th width="150px">Name</th>
                                 <th>Description</th>
                               </tr>
-                                <tr><td style="width:150px;">body </td>
+                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
 <td>
 
 
@@ -3415,7 +3446,7 @@ $(document).ready(function() {
   var schemaWrapper = {
   "in" : "body",
   "name" : "body",
-  "required" : false,
+  "required" : true,
   "schema" : {
     "$ref" : "#/definitions/NewTaskList"
   }
@@ -3496,7 +3527,7 @@ $(document).ready(function() {
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 404 - No tasks found </h3>
+                            <h3> Status: 404 - Not found </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -3824,7 +3855,7 @@ $(document).ready(function() {
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 404 - No tasks found </h3>
+                            <h3> Status: 404 - Not found </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -4135,7 +4166,15 @@ except ApiException as e:
                                 </div>
                             </div>
 
-                            <h3> Status: 404 - User not found </h3>
+                            <h3> Status: 401 - Not authenticated </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 404 - Not found </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
