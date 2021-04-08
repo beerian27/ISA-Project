@@ -20,8 +20,13 @@ app.get('/documentation', function(req, res) {
     res.sendFile('/documentation.html', {root: __dirname + '/public/doc/html'})
 });
 
-// GET '/': Index Page
+// GET '/': Landing Page
 app.get('/', function(req, res) {
+    res.sendFile('/landing.html', {root: __dirname + '/public/landing/html'})
+});
+
+// GET "/welcome" Main page
+app.get('/welcome', function(req, res) {
     res.sendFile('/index.html', {root: __dirname + '/public/index/html'})
 });
 
@@ -33,6 +38,16 @@ app.get('/admin', function(req, res) {
 // GET '/register': Registration Page
 app.get('/register', function(req, res) {
     res.sendFile('/registration.html', {root: __dirname + '/public/registration/html'})
+});
+
+// GET '/login': Login Page
+app.get('/login', function(req, res) {
+    res.sendFile('/login.html', {root: __dirname + '/public/login/html'})
+});
+
+// GET '/taskList': Tasks Page
+app.get('/taskList', function(req, res) {
+    res.sendFile('/taskList.html', {root: __dirname + '/public/taskList/html'})
 });
 
 

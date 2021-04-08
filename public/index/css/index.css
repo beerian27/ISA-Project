@@ -1,0 +1,13 @@
+#header {
+    display: none;
+}
+
+#content {
+    display: none;
+}
+
+#loadingContainer {
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 50%;
+}

@@ -1,0 +1,56 @@
+body {
+    background-color: rgb(216, 216, 216);
+}
+#content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: white;
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+    align-content: center;
+    justify-content: center;
+}
+
+#detail {
+    display: inline;
+    grid-column-start: 1;
+    grid-column-end: 1;
+}
+
+#text {
+    justify-content: center;
+    padding: 2em;
+    top: 50%;
+}
+
+#options {
+    padding-top: 1em;
+    text-align: center;
+    margin-top: 1em;
+}
+
+#imgContainer {
+    text-align: center;
+    padding: 1.5em;
+}
+
+img {
+    width: 80%;
+    border-radius: 1rem;
+}
+
+
+@media only screen and (min-device-width: 374px) and (max-device-height: 900px){
+    #content {
+        display: block;
+    }
+
+    #text {
+        padding: 1em 1em;
+    }
+
+    img {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+    
