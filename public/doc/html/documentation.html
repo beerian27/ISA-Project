@@ -727,6 +727,18 @@ margin-bottom: 20px;
     "name" : "Login"
   }
 };
+        defs["NewTaskList"] = {
+  "type" : "object",
+  "properties" : {
+    "userID" : {
+      "type" : "integer"
+    },
+    "date" : {
+      "type" : "string",
+      "example" : "YYYY-MM-DD"
+    }
+  }
+};
         defs["Task"] = {
   "type" : "object",
   "properties" : {
@@ -739,6 +751,9 @@ margin-bottom: 20px;
     "isComplete" : {
       "type" : "boolean",
       "default" : false
+    },
+    "taskListID" : {
+      "type" : "integer"
     }
   },
   "xml" : {
@@ -772,6 +787,21 @@ margin-bottom: 20px;
           }
         }
       }
+    }
+  }
+};
+        defs["UpdateTask"] = {
+  "type" : "object",
+  "properties" : {
+    "taskName" : {
+      "type" : "string"
+    },
+    "taskDescription" : {
+      "type" : "string"
+    },
+    "isComplete" : {
+      "type" : "boolean",
+      "default" : false
     }
   }
 };
@@ -833,6 +863,9 @@ margin-bottom: 20px;
                       <a href="#api-Task-updateTask">updateTask</a>
                     </li>
                   <li class="nav-header" data-group="TaskList"><a href="#api-TaskList">API Methods - TaskList</a></li>
+                    <li data-group="TaskList" data-name="addTaskList" class="">
+                      <a href="#api-TaskList-addTaskList">addTaskList</a>
+                    </li>
                     <li data-group="TaskList" data-name="deleteTaskList" class="">
                       <a href="#api-TaskList-deleteTaskList">deleteTaskList</a>
                     </li>
@@ -843,17 +876,8 @@ margin-bottom: 20px;
                       <a href="#api-TaskList-getTaskListYesterday">getTaskListYesterday</a>
                     </li>
                   <li class="nav-header" data-group="User"><a href="#api-User">API Methods - User</a></li>
-                    <li data-group="User" data-name="createUser" class="">
-                      <a href="#api-User-createUser">createUser</a>
-                    </li>
                     <li data-group="User" data-name="getUserByID" class="">
                       <a href="#api-User-getUserByID">getUserByID</a>
-                    </li>
-                    <li data-group="User" data-name="loginUser" class="">
-                      <a href="#api-User-loginUser">loginUser</a>
-                    </li>
-                    <li data-group="User" data-name="logoutUser" class="">
-                      <a href="#api-User-logoutUser">logoutUser</a>
                     </li>
           </ul>
         </nav>
@@ -870,7 +894,7 @@ margin-bottom: 20px;
             <h2 id="welcome-to-apidoc">API and SDK Documentation</h2>
               <div class="app-desc">Version: 1.0.0</div>
             <hr>
-            <div>This is an application to act as a checklist for students to keep track of their daily tasks. This is application is not to be used as a calendar, but rather as a daily checklist.</div>
+            <div>This is an application to act as a checklist for students to keep track of their daily tasks. This is application is not to be used as a calendar, but rather as a daily checklist. All tasks here require a header 'Authorization' 'Bearer <token>' to use</div>
           </div>
         </div>
         <div id="sections">
@@ -1177,7 +1201,23 @@ $(document).ready(function() {
                                 </div>
                             </div>
 
-                            <h3> Status: 401 - Admins only </h3>
+                            <h3> Status: 401 - Not authenticated </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 403 - Not authorized </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 500 - Server error </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -1440,7 +1480,7 @@ $(document).ready(function() {
 
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - Successfully created </h3>
+                            <h3> Status: 201 - Successful operation </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -1449,6 +1489,22 @@ $(document).ready(function() {
                             </div>
 
                             <h3> Status: 400 - Invalid input </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 401 - Not authenticated </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 500 - Server error </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -1471,7 +1527,7 @@ $(document).ready(function() {
                         <p class="marked"></p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/task/complete/{taskID}</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/task/{taskID}/complete</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -1491,7 +1547,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Task-completeTask-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT "https://brian-scheduler.herokuapp.com/v1/task/complete/{taskID}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT "https://brian-scheduler.herokuapp.com/v1/task/{taskID}/complete"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Task-completeTask-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1507,7 +1563,7 @@ public class TaskApiExample {
     public static void main(String[] args) {
         
         TaskApi apiInstance = new TaskApi();
-        Integer taskID = 56; // Integer | ID of the order that needs to be deleted
+        Integer taskID = 56; // Integer | ID of the task to mark complete
         try {
             apiInstance.completeTask(taskID);
         } catch (ApiException e) {
@@ -1525,7 +1581,7 @@ public class TaskApiExample {
 
     public static void main(String[] args) {
         TaskApi apiInstance = new TaskApi();
-        Integer taskID = 56; // Integer | ID of the order that needs to be deleted
+        Integer taskID = 56; // Integer | ID of the task to mark complete
         try {
             apiInstance.completeTask(taskID);
         } catch (ApiException e) {
@@ -1540,7 +1596,7 @@ public class TaskApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Task-completeTask-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Integer *taskID = 56; // ID of the order that needs to be deleted
+                              <pre class="prettyprint"><code class="language-cpp">Integer *taskID = 56; // ID of the task to mark complete
 
 TaskApi *apiInstance = [[TaskApi alloc] init];
 
@@ -1559,7 +1615,7 @@ TaskApi *apiInstance = [[TaskApi alloc] init];
 
 var api = new BrianScheduler.TaskApi()
 
-var taskID = 56; // {Integer} ID of the order that needs to be deleted
+var taskID = 56; // {Integer} ID of the task to mark complete
 
 
 var callback = function(error, data, response) {
@@ -1591,7 +1647,7 @@ namespace Example
         {
             
             var apiInstance = new TaskApi();
-            var taskID = 56;  // Integer | ID of the order that needs to be deleted
+            var taskID = 56;  // Integer | ID of the task to mark complete
 
             try
             {
@@ -1613,7 +1669,7 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\TaskApi();
-$taskID = 56; // Integer | ID of the order that needs to be deleted
+$taskID = 56; // Integer | ID of the task to mark complete
 
 try {
     $api_instance->completeTask($taskID);
@@ -1629,7 +1685,7 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::TaskApi;
 
 my $api_instance = WWW::SwaggerClient::TaskApi->new();
-my $taskID = 56; # Integer | ID of the order that needs to be deleted
+my $taskID = 56; # Integer | ID of the task to mark complete
 
 eval { 
     $api_instance->completeTask(taskID => $taskID);
@@ -1648,7 +1704,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.TaskApi()
-taskID = 56 # Integer | ID of the order that needs to be deleted
+taskID = 56 # Integer | ID of the task to mark complete
 
 try: 
     # Mark a task complete
@@ -1678,7 +1734,7 @@ except ApiException as e:
                 </span>
 
                     <div class="inner description">
-                        ID of the order that needs to be deleted
+                        ID of the task to mark complete
                     </div>
             </div>
                 <div class="inner required">
@@ -1696,7 +1752,7 @@ except ApiException as e:
 
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - Successfully changed task to complete </h3>
+                            <h3> Status: 200 - Successful operation </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -1704,7 +1760,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 401 - Invalid user </h3>
+                            <h3> Status: 401 - Not authenticated </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -1712,7 +1768,15 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 404 - Task not found </h3>
+                            <h3> Status: 404 - Not found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 500 - Server error </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -1960,7 +2024,7 @@ except ApiException as e:
 
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - Task successfully deleted </h3>
+                            <h3> Status: 200 - Successful operation </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -1968,7 +2032,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 401 - Not authorized to delete that task </h3>
+                            <h3> Status: 400 - Invalid parameter </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -1976,7 +2040,23 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 404 - Task not found </h3>
+                            <h3> Status: 401 - Not authenticated </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 404 - Not found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 500 - Server error </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2035,8 +2115,9 @@ public class TaskApiExample {
     public static void main(String[] args) {
         
         TaskApi apiInstance = new TaskApi();
+        NewTaskList body = ; // NewTaskList | UserID and user's current date
         try {
-            apiInstance.moveTasks();
+            apiInstance.moveTasks(body);
         } catch (ApiException e) {
             System.err.println("Exception when calling TaskApi#moveTasks");
             e.printStackTrace();
@@ -2052,8 +2133,9 @@ public class TaskApiExample {
 
     public static void main(String[] args) {
         TaskApi apiInstance = new TaskApi();
+        NewTaskList body = ; // NewTaskList | UserID and user's current date
         try {
-            apiInstance.moveTasks();
+            apiInstance.moveTasks(body);
         } catch (ApiException e) {
             System.err.println("Exception when calling TaskApi#moveTasks");
             e.printStackTrace();
@@ -2066,12 +2148,13 @@ public class TaskApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Task-moveTasks-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
+                              <pre class="prettyprint"><code class="language-cpp">NewTaskList *body = ; // UserID and user's current date
+
 TaskApi *apiInstance = [[TaskApi alloc] init];
 
 // Take all unfinished tasks and insert them to the next day
-[apiInstance moveTasksWithCompletionHandler: 
-              ^(NSError* error) {
+[apiInstance moveTasksWith:body
+              completionHandler: ^(NSError* error) {
                             if (error) {
                                 NSLog(@"Error: %@", error);
                             }
@@ -2084,6 +2167,9 @@ TaskApi *apiInstance = [[TaskApi alloc] init];
 
 var api = new BrianScheduler.TaskApi()
 
+var body = ; // {NewTaskList} UserID and user's current date
+
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -2091,7 +2177,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-api.moveTasks(callback);
+api.moveTasks(body, callback);
 </code></pre>
                             </div>
 
@@ -2113,11 +2199,12 @@ namespace Example
         {
             
             var apiInstance = new TaskApi();
+            var body = new NewTaskList(); // NewTaskList | UserID and user's current date
 
             try
             {
                 // Take all unfinished tasks and insert them to the next day
-                apiInstance.moveTasks();
+                apiInstance.moveTasks(body);
             }
             catch (Exception e)
             {
@@ -2134,9 +2221,10 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\TaskApi();
+$body = ; // NewTaskList | UserID and user's current date
 
 try {
-    $api_instance->moveTasks();
+    $api_instance->moveTasks($body);
 } catch (Exception $e) {
     echo 'Exception when calling TaskApi->moveTasks: ', $e->getMessage(), PHP_EOL;
 }
@@ -2149,9 +2237,10 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::TaskApi;
 
 my $api_instance = WWW::SwaggerClient::TaskApi->new();
+my $body = WWW::SwaggerClient::Object::NewTaskList->new(); # NewTaskList | UserID and user's current date
 
 eval { 
-    $api_instance->moveTasks();
+    $api_instance->moveTasks(body => $body);
 };
 if ($@) {
     warn "Exception when calling TaskApi->moveTasks: $@\n";
@@ -2167,10 +2256,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.TaskApi()
+body =  # NewTaskList | UserID and user's current date
 
 try: 
     # Take all unfinished tasks and insert them to the next day
-    api_instance.move_tasks()
+    api_instance.move_tasks(body)
 except ApiException as e:
     print("Exception when calling TaskApi->moveTasks: %s\n" % e)</code></pre>
                             </div>
@@ -2180,11 +2270,53 @@ except ApiException as e:
 
 
 
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
+<td>
+
+
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "in" : "body",
+  "name" : "body",
+  "description" : "UserID and user's current date",
+  "required" : true,
+  "schema" : {
+    "$ref" : "#/definitions/NewTaskList"
+  }
+};
+  var schema = schemaWrapper.schema;
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_moveTasks_body');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_moveTasks_body"></div>
+</td>
+</tr>
+
+                            </table>
 
 
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - Tasks successfully moved </h3>
+                            <h3> Status: 200 - Successful operation </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2192,7 +2324,23 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 400 - Invalid status value </h3>
+                            <h3> Status: 400 - Invalid input </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 401 - Not authenticated </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 500 - Server error </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2252,7 +2400,7 @@ public class TaskApiExample {
         
         TaskApi apiInstance = new TaskApi();
         Integer taskID = 56; // Integer | ID of the task to be changed
-        Task body = ; // Task | New body of the task
+        UpdateTask body = ; // UpdateTask | New body of the task
         try {
             apiInstance.updateTask(taskID, body);
         } catch (ApiException e) {
@@ -2271,7 +2419,7 @@ public class TaskApiExample {
     public static void main(String[] args) {
         TaskApi apiInstance = new TaskApi();
         Integer taskID = 56; // Integer | ID of the task to be changed
-        Task body = ; // Task | New body of the task
+        UpdateTask body = ; // UpdateTask | New body of the task
         try {
             apiInstance.updateTask(taskID, body);
         } catch (ApiException e) {
@@ -2287,7 +2435,7 @@ public class TaskApiExample {
   </div> -->
                             <div class="tab-pane" id="examples-Task-updateTask-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Integer *taskID = 56; // ID of the task to be changed
-Task *body = ; // New body of the task
+UpdateTask *body = ; // New body of the task
 
 TaskApi *apiInstance = [[TaskApi alloc] init];
 
@@ -2309,7 +2457,7 @@ var api = new BrianScheduler.TaskApi()
 
 var taskID = 56; // {Integer} ID of the task to be changed
 
-var body = ; // {Task} New body of the task
+var body = ; // {UpdateTask} New body of the task
 
 
 var callback = function(error, data, response) {
@@ -2342,7 +2490,7 @@ namespace Example
             
             var apiInstance = new TaskApi();
             var taskID = 56;  // Integer | ID of the task to be changed
-            var body = new Task(); // Task | New body of the task
+            var body = new UpdateTask(); // UpdateTask | New body of the task
 
             try
             {
@@ -2365,7 +2513,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\TaskApi();
 $taskID = 56; // Integer | ID of the task to be changed
-$body = ; // Task | New body of the task
+$body = ; // UpdateTask | New body of the task
 
 try {
     $api_instance->updateTask($taskID, $body);
@@ -2382,7 +2530,7 @@ use WWW::SwaggerClient::TaskApi;
 
 my $api_instance = WWW::SwaggerClient::TaskApi->new();
 my $taskID = 56; # Integer | ID of the task to be changed
-my $body = WWW::SwaggerClient::Object::Task->new(); # Task | New body of the task
+my $body = WWW::SwaggerClient::Object::UpdateTask->new(); # UpdateTask | New body of the task
 
 eval { 
     $api_instance->updateTask(taskID => $taskID, body => $body);
@@ -2402,7 +2550,7 @@ from pprint import pprint
 # create an instance of the API class
 api_instance = swagger_client.TaskApi()
 taskID = 56 # Integer | ID of the task to be changed
-body =  # Task | New body of the task
+body =  # UpdateTask | New body of the task
 
 try: 
     # Update an existing task
@@ -2464,7 +2612,7 @@ $(document).ready(function() {
   "description" : "New body of the task",
   "required" : true,
   "schema" : {
-    "$ref" : "#/definitions/Task"
+    "$ref" : "#/definitions/UpdateTask"
   }
 };
   var schema = schemaWrapper.schema;
@@ -2492,7 +2640,7 @@ $(document).ready(function() {
 
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - Task successfully updated </h3>
+                            <h3> Status: 200 - Successful operation </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2508,7 +2656,7 @@ $(document).ready(function() {
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 404 - Task not found </h3>
+                            <h3> Status: 401 - Not authenticated </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2516,7 +2664,15 @@ $(document).ready(function() {
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 405 - Task cannot be changed </h3>
+                            <h3> Status: 404 - Not found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 500 - Server error </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2530,6 +2686,290 @@ $(document).ready(function() {
                   </section>
                 <section id="api-TaskList">
                   <h1>TaskList</h1>
+                    <div id="api-TaskList-addTaskList">
+                      <article id="api-TaskList-addTaskList-0" data-group="User" data-name="addTaskList" data-version="0">
+                        <div class="pull-left">
+                          <h1>addTaskList</h1>
+                          <p>Create a new task list with today&#39;s date</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/taskList/</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-TaskList-addTaskList-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-TaskList-addTaskList-0-java">Java</a></li>
+                          <li class=""><a href="#examples-TaskList-addTaskList-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-TaskList-addTaskList-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-TaskList-addTaskList-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-TaskList-addTaskList-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-TaskList-addTaskList-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-TaskList-addTaskList-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-TaskList-addTaskList-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-TaskList-addTaskList-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-TaskList-addTaskList-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-TaskList-addTaskList-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://brian-scheduler.herokuapp.com/v1/taskList/"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-TaskList-addTaskList-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.TaskListApi;
+
+import java.io.File;
+import java.util.*;
+
+public class TaskListApiExample {
+
+    public static void main(String[] args) {
+        
+        TaskListApi apiInstance = new TaskListApi();
+        NewTaskList body = ; // NewTaskList | UserID and date
+        try {
+            apiInstance.addTaskList(body);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling TaskListApi#addTaskList");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-TaskList-addTaskList-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.TaskListApi;
+
+public class TaskListApiExample {
+
+    public static void main(String[] args) {
+        TaskListApi apiInstance = new TaskListApi();
+        NewTaskList body = ; // NewTaskList | UserID and date
+        try {
+            apiInstance.addTaskList(body);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling TaskListApi#addTaskList");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-TaskList-addTaskList-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-TaskList-addTaskList-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">NewTaskList *body = ; // UserID and date
+
+TaskListApi *apiInstance = [[TaskListApi alloc] init];
+
+// Create a new task list with today's date
+[apiInstance addTaskListWith:body
+              completionHandler: ^(NSError* error) {
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-TaskList-addTaskList-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var BrianScheduler = require('brian_scheduler');
+
+var api = new BrianScheduler.TaskListApi()
+
+var body = ; // {NewTaskList} UserID and date
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.addTaskList(body, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-TaskList-addTaskList-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-TaskList-addTaskList-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class addTaskListExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new TaskListApi();
+            var body = new NewTaskList(); // NewTaskList | UserID and date
+
+            try
+            {
+                // Create a new task list with today's date
+                apiInstance.addTaskList(body);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling TaskListApi.addTaskList: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-TaskList-addTaskList-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\TaskListApi();
+$body = ; // NewTaskList | UserID and date
+
+try {
+    $api_instance->addTaskList($body);
+} catch (Exception $e) {
+    echo 'Exception when calling TaskListApi->addTaskList: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-TaskList-addTaskList-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::TaskListApi;
+
+my $api_instance = WWW::SwaggerClient::TaskListApi->new();
+my $body = WWW::SwaggerClient::Object::NewTaskList->new(); # NewTaskList | UserID and date
+
+eval { 
+    $api_instance->addTaskList(body => $body);
+};
+if ($@) {
+    warn "Exception when calling TaskListApi->addTaskList: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-TaskList-addTaskList-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.TaskListApi()
+body =  # NewTaskList | UserID and date
+
+try: 
+    # Create a new task list with today's date
+    api_instance.add_task_list(body)
+except ApiException as e:
+    print("Exception when calling TaskListApi->addTaskList: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
+<td>
+
+
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "in" : "body",
+  "name" : "body",
+  "description" : "UserID and date",
+  "required" : true,
+  "schema" : {
+    "$ref" : "#/definitions/NewTaskList"
+  }
+};
+  var schema = schemaWrapper.schema;
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_addTaskList_body');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_addTaskList_body"></div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 201 - Successful operation </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 400 - Invalid body </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 401 - Not authenticated </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 500 - Server error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
                     <div id="api-TaskList-deleteTaskList">
                       <article id="api-TaskList-deleteTaskList-0" data-group="User" data-name="deleteTaskList" data-version="0">
                         <div class="pull-left">
@@ -2767,7 +3207,7 @@ except ApiException as e:
 
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - Task list successfully deleted </h3>
+                            <h3> Status: 200 - Successful operation </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2775,7 +3215,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 401 - Invalid user </h3>
+                            <h3> Status: 401 - Not authenticated </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2783,7 +3223,15 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 404 - Task list not found </h3>
+                            <h3> Status: 404 - Not found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 500 - Server error </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2806,7 +3254,7 @@ except ApiException as e:
                         <p class="marked"></p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/taskList/{userID}/today</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/taskList/today</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -2826,7 +3274,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-TaskList-getTaskList-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://brian-scheduler.herokuapp.com/v1/taskList/{userID}/today"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://brian-scheduler.herokuapp.com/v1/taskList/today"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-TaskList-getTaskList-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2842,9 +3290,9 @@ public class TaskListApiExample {
     public static void main(String[] args) {
         
         TaskListApi apiInstance = new TaskListApi();
-        Integer userID = 56; // Integer | User to get tasks for
+        NewTaskList body = ; // NewTaskList | 
         try {
-            TaskList result = apiInstance.getTaskList(userID);
+            TaskList result = apiInstance.getTaskList(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling TaskListApi#getTaskList");
@@ -2861,9 +3309,9 @@ public class TaskListApiExample {
 
     public static void main(String[] args) {
         TaskListApi apiInstance = new TaskListApi();
-        Integer userID = 56; // Integer | User to get tasks for
+        NewTaskList body = ; // NewTaskList | 
         try {
-            TaskList result = apiInstance.getTaskList(userID);
+            TaskList result = apiInstance.getTaskList(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling TaskListApi#getTaskList");
@@ -2877,12 +3325,12 @@ public class TaskListApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-TaskList-getTaskList-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Integer *userID = 56; // User to get tasks for
+                              <pre class="prettyprint"><code class="language-cpp">NewTaskList *body = ; // 
 
 TaskListApi *apiInstance = [[TaskListApi alloc] init];
 
 // Retrieve the current day's task list
-[apiInstance getTaskListWith:userID
+[apiInstance getTaskListWith:body
               completionHandler: ^(TaskList output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
@@ -2899,7 +3347,7 @@ TaskListApi *apiInstance = [[TaskListApi alloc] init];
 
 var api = new BrianScheduler.TaskListApi()
 
-var userID = 56; // {Integer} User to get tasks for
+var body = ; // {NewTaskList} 
 
 
 var callback = function(error, data, response) {
@@ -2909,7 +3357,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.getTaskList(userID, callback);
+api.getTaskList(body, callback);
 </code></pre>
                             </div>
 
@@ -2931,12 +3379,12 @@ namespace Example
         {
             
             var apiInstance = new TaskListApi();
-            var userID = 56;  // Integer | User to get tasks for
+            var body = new NewTaskList(); // NewTaskList | 
 
             try
             {
                 // Retrieve the current day's task list
-                TaskList result = apiInstance.getTaskList(userID);
+                TaskList result = apiInstance.getTaskList(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -2954,10 +3402,10 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\TaskListApi();
-$userID = 56; // Integer | User to get tasks for
+$body = ; // NewTaskList | 
 
 try {
-    $result = $api_instance->getTaskList($userID);
+    $result = $api_instance->getTaskList($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling TaskListApi->getTaskList: ', $e->getMessage(), PHP_EOL;
@@ -2971,10 +3419,10 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::TaskListApi;
 
 my $api_instance = WWW::SwaggerClient::TaskListApi->new();
-my $userID = 56; # Integer | User to get tasks for
+my $body = WWW::SwaggerClient::Object::NewTaskList->new(); # NewTaskList | 
 
 eval { 
-    my $result = $api_instance->getTaskList(userID => $userID);
+    my $result = $api_instance->getTaskList(body => $body);
     print Dumper($result);
 };
 if ($@) {
@@ -2991,11 +3439,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.TaskListApi()
-userID = 56 # Integer | User to get tasks for
+body =  # NewTaskList | 
 
 try: 
     # Retrieve the current day's task list
-    api_response = api_instance.get_task_list(userID)
+    api_response = api_instance.get_task_list(body)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling TaskListApi->getTaskList: %s\n" % e)</code></pre>
@@ -3004,38 +3452,49 @@ except ApiException as e:
 
                           <h2>Parameters</h2>
 
-                            <div class="methodsubtabletitle">Path parameters</div>
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
                             <table id="methodsubtable">
-                                <tr>
-                                  <th width="150px">Name</th>
-                                  <th>Description</th>
-                                </tr>
-                                  <tr><td style="width:150px;">userID*</td>
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
 <td>
 
 
-    <div id="d2e199_getTaskList_userID">
-        <div class="json-schema-view">
-            <div class="primitive">
-                <span class="type">
-                    Integer
-                </span>
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "in" : "body",
+  "name" : "body",
+  "required" : true,
+  "schema" : {
+    "$ref" : "#/definitions/NewTaskList"
+  }
+};
+  var schema = schemaWrapper.schema;
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
 
-                    <div class="inner description">
-                        User to get tasks for
-                    </div>
-            </div>
-                <div class="inner required">
-                    Required
-                </div>
-        </div>
-    </div>
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_getTaskList_body');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_getTaskList_body"></div>
 </td>
 </tr>
 
                             </table>
-
-
 
 
 
@@ -3091,7 +3550,15 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 404 - No tasks found </h3>
+                            <h3> Status: 404 - Not found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 500 - Server error </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -3114,7 +3581,7 @@ except ApiException as e:
                         <p class="marked"></p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/taskList/{userID}/yesterday</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/taskList/yesterday</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -3134,7 +3601,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-TaskList-getTaskListYesterday-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://brian-scheduler.herokuapp.com/v1/taskList/{userID}/yesterday"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://brian-scheduler.herokuapp.com/v1/taskList/yesterday"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-TaskList-getTaskListYesterday-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3150,9 +3617,9 @@ public class TaskListApiExample {
     public static void main(String[] args) {
         
         TaskListApi apiInstance = new TaskListApi();
-        Integer userID = 56; // Integer | User to get tasks for
+        NewTaskList body = ; // NewTaskList | 
         try {
-            TaskList result = apiInstance.getTaskListYesterday(userID);
+            TaskList result = apiInstance.getTaskListYesterday(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling TaskListApi#getTaskListYesterday");
@@ -3169,9 +3636,9 @@ public class TaskListApiExample {
 
     public static void main(String[] args) {
         TaskListApi apiInstance = new TaskListApi();
-        Integer userID = 56; // Integer | User to get tasks for
+        NewTaskList body = ; // NewTaskList | 
         try {
-            TaskList result = apiInstance.getTaskListYesterday(userID);
+            TaskList result = apiInstance.getTaskListYesterday(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling TaskListApi#getTaskListYesterday");
@@ -3185,12 +3652,12 @@ public class TaskListApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-TaskList-getTaskListYesterday-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Integer *userID = 56; // User to get tasks for
+                              <pre class="prettyprint"><code class="language-cpp">NewTaskList *body = ; // 
 
 TaskListApi *apiInstance = [[TaskListApi alloc] init];
 
 // Retrieve the yesterday's task list
-[apiInstance getTaskListYesterdayWith:userID
+[apiInstance getTaskListYesterdayWith:body
               completionHandler: ^(TaskList output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
@@ -3207,7 +3674,7 @@ TaskListApi *apiInstance = [[TaskListApi alloc] init];
 
 var api = new BrianScheduler.TaskListApi()
 
-var userID = 56; // {Integer} User to get tasks for
+var body = ; // {NewTaskList} 
 
 
 var callback = function(error, data, response) {
@@ -3217,7 +3684,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.getTaskListYesterday(userID, callback);
+api.getTaskListYesterday(body, callback);
 </code></pre>
                             </div>
 
@@ -3239,12 +3706,12 @@ namespace Example
         {
             
             var apiInstance = new TaskListApi();
-            var userID = 56;  // Integer | User to get tasks for
+            var body = new NewTaskList(); // NewTaskList | 
 
             try
             {
                 // Retrieve the yesterday's task list
-                TaskList result = apiInstance.getTaskListYesterday(userID);
+                TaskList result = apiInstance.getTaskListYesterday(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -3262,10 +3729,10 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\TaskListApi();
-$userID = 56; // Integer | User to get tasks for
+$body = ; // NewTaskList | 
 
 try {
-    $result = $api_instance->getTaskListYesterday($userID);
+    $result = $api_instance->getTaskListYesterday($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling TaskListApi->getTaskListYesterday: ', $e->getMessage(), PHP_EOL;
@@ -3279,10 +3746,10 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::TaskListApi;
 
 my $api_instance = WWW::SwaggerClient::TaskListApi->new();
-my $userID = 56; # Integer | User to get tasks for
+my $body = WWW::SwaggerClient::Object::NewTaskList->new(); # NewTaskList | 
 
 eval { 
-    my $result = $api_instance->getTaskListYesterday(userID => $userID);
+    my $result = $api_instance->getTaskListYesterday(body => $body);
     print Dumper($result);
 };
 if ($@) {
@@ -3299,11 +3766,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.TaskListApi()
-userID = 56 # Integer | User to get tasks for
+body =  # NewTaskList | 
 
 try: 
     # Retrieve the yesterday's task list
-    api_response = api_instance.get_task_list_yesterday(userID)
+    api_response = api_instance.get_task_list_yesterday(body)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling TaskListApi->getTaskListYesterday: %s\n" % e)</code></pre>
@@ -3312,38 +3779,49 @@ except ApiException as e:
 
                           <h2>Parameters</h2>
 
-                            <div class="methodsubtabletitle">Path parameters</div>
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
                             <table id="methodsubtable">
-                                <tr>
-                                  <th width="150px">Name</th>
-                                  <th>Description</th>
-                                </tr>
-                                  <tr><td style="width:150px;">userID*</td>
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
 <td>
 
 
-    <div id="d2e199_getTaskListYesterday_userID">
-        <div class="json-schema-view">
-            <div class="primitive">
-                <span class="type">
-                    Integer
-                </span>
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "in" : "body",
+  "name" : "body",
+  "required" : true,
+  "schema" : {
+    "$ref" : "#/definitions/NewTaskList"
+  }
+};
+  var schema = schemaWrapper.schema;
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
 
-                    <div class="inner description">
-                        User to get tasks for
-                    </div>
-            </div>
-                <div class="inner required">
-                    Required
-                </div>
-        </div>
-    </div>
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_getTaskListYesterday_body');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_getTaskListYesterday_body"></div>
 </td>
 </tr>
 
                             </table>
-
-
 
 
 
@@ -3399,7 +3877,15 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 404 - No tasks to retrieve </h3>
+                            <h3> Status: 404 - Not found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 500 - Server error </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -3413,274 +3899,6 @@ except ApiException as e:
                   </section>
                 <section id="api-User">
                   <h1>User</h1>
-                    <div id="api-User-createUser">
-                      <article id="api-User-createUser-0" data-group="User" data-name="createUser" data-version="0">
-                        <div class="pull-left">
-                          <h1>createUser</h1>
-                          <p>Create a new user</p>
-                        </div>
-                        <div class="pull-right"></div>
-                        <div class="clearfix"></div>
-                        <p></p>
-                        <p class="marked"></p>
-                        <p></p>
-                        <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/user</span></code></pre>
-                        <p>
-                          <h3>Usage and SDK Samples</h3>
-                        </p>
-                        <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-User-createUser-0-curl">Curl</a></li>
-                          <li class=""><a href="#examples-User-createUser-0-java">Java</a></li>
-                          <li class=""><a href="#examples-User-createUser-0-android">Android</a></li>
-                          <!--<li class=""><a href="#examples-User-createUser-0-groovy">Groovy</a></li>-->
-                          <li class=""><a href="#examples-User-createUser-0-objc">Obj-C</a></li>
-                          <li class=""><a href="#examples-User-createUser-0-javascript">JavaScript</a></li>
-                          <!--<li class=""><a href="#examples-User-createUser-0-angular">Angular</a></li>-->
-                          <li class=""><a href="#examples-User-createUser-0-csharp">C#</a></li>
-                          <li class=""><a href="#examples-User-createUser-0-php">PHP</a></li>
-                          <li class=""><a href="#examples-User-createUser-0-perl">Perl</a></li>
-                          <li class=""><a href="#examples-User-createUser-0-python">Python</a></li>
-                        </ul>
-
-                        <div class="tab-content">
-                          <div class="tab-pane active" id="examples-User-createUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://brian-scheduler.herokuapp.com/v1/user"</code></pre>
-                          </div>
-                          <div class="tab-pane" id="examples-User-createUser-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.UserApi;
-
-import java.io.File;
-import java.util.*;
-
-public class UserApiExample {
-
-    public static void main(String[] args) {
-        
-        UserApi apiInstance = new UserApi();
-        User body = ; // User | User to create
-        try {
-            apiInstance.createUser(body);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling UserApi#createUser");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-
-                          <div class="tab-pane" id="examples-User-createUser-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
-
-public class UserApiExample {
-
-    public static void main(String[] args) {
-        UserApi apiInstance = new UserApi();
-        User body = ; // User | User to create
-        try {
-            apiInstance.createUser(body);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling UserApi#createUser");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-  <!--
-  <div class="tab-pane" id="examples-User-createUser-0-groovy">
-  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-  </div> -->
-                            <div class="tab-pane" id="examples-User-createUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">User *body = ; // User to create
-
-UserApi *apiInstance = [[UserApi alloc] init];
-
-// Create a new user
-[apiInstance createUserWith:body
-              completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-createUser-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var BrianScheduler = require('brian_scheduler');
-
-var api = new BrianScheduler.UserApi()
-
-var body = ; // {User} User to create
-
-
-var callback = function(error, data, response) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('API called successfully.');
-  }
-};
-api.createUser(body, callback);
-</code></pre>
-                            </div>
-
-                            <!--<div class="tab-pane" id="examples-User-createUser-0-angular">
-              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-            </div>-->
-                            <div class="tab-pane" id="examples-User-createUser-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">using System;
-using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-
-namespace Example
-{
-    public class createUserExample
-    {
-        public void main()
-        {
-            
-            var apiInstance = new UserApi();
-            var body = new User(); // User | User to create
-
-            try
-            {
-                // Create a new user
-                apiInstance.createUser(body);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling UserApi.createUser: " + e.Message );
-            }
-        }
-    }
-}
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-createUser-0-php">
-                              <pre class="prettyprint"><code class="language-php"><&#63;php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-$api_instance = new Swagger\Client\Api\UserApi();
-$body = ; // User | User to create
-
-try {
-    $api_instance->createUser($body);
-} catch (Exception $e) {
-    echo 'Exception when calling UserApi->createUser: ', $e->getMessage(), PHP_EOL;
-}
-?></code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-createUser-0-perl">
-                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::UserApi;
-
-my $api_instance = WWW::SwaggerClient::UserApi->new();
-my $body = WWW::SwaggerClient::Object::User->new(); # User | User to create
-
-eval { 
-    $api_instance->createUser(body => $body);
-};
-if ($@) {
-    warn "Exception when calling UserApi->createUser: $@\n";
-}</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-createUser-0-python">
-                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = swagger_client.UserApi()
-body =  # User | User to create
-
-try: 
-    # Create a new user
-    api_instance.create_user(body)
-except ApiException as e:
-    print("Exception when calling UserApi->createUser: %s\n" % e)</code></pre>
-                            </div>
-                          </div>
-
-                          <h2>Parameters</h2>
-
-
-
-                            <div class="methodsubtabletitle">Body parameters</div>
-                            <table id="methodsubtable">
-                              <tr>
-                                <th width="150px">Name</th>
-                                <th>Description</th>
-                              </tr>
-                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
-<td>
-
-
-<script>
-$(document).ready(function() {
-  var schemaWrapper = {
-  "in" : "body",
-  "name" : "body",
-  "description" : "User to create",
-  "required" : true,
-  "schema" : {
-    "$ref" : "#/definitions/User"
-  }
-};
-  var schema = schemaWrapper.schema;
-  if (schema.$ref != null) {
-    schema = defsParser.$refs.get(schema.$ref);
-  } else {
-    schemaWrapper.definitions = Object.assign({}, defs);
-    $RefParser.dereference(schemaWrapper).catch(function(err) {
-      console.log(err);
-    });
-  }
-
-  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
-  var result = $('#d2e199_createUser_body');
-  result.empty();
-  result.append(view.render());
-});
-</script>
-<div id="d2e199_createUser_body"></div>
-</td>
-</tr>
-
-                            </table>
-
-
-
-                          <h2>Responses</h2>
-                            <h3> Status: 201 - Successfully created </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                            </div>
-
-                            <h3> Status: 400 - Invalid user info supplied </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                            </div>
-
-                        </article>
-                      </div>
-                      <hr>
                     <div id="api-User-getUserByID">
                       <article id="api-User-getUserByID-0" data-group="User" data-name="getUserByID" data-version="0">
                         <div class="pull-left">
@@ -3970,7 +4188,7 @@ except ApiException as e:
                                 </div>
                             </div>
 
-                            <h3> Status: 404 - User not found </h3>
+                            <h3> Status: 401 - Not authenticated </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -3978,259 +4196,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                        </article>
-                      </div>
-                      <hr>
-                    <div id="api-User-loginUser">
-                      <article id="api-User-loginUser-0" data-group="User" data-name="loginUser" data-version="0">
-                        <div class="pull-left">
-                          <h1>loginUser</h1>
-                          <p>Logs user into the system</p>
-                        </div>
-                        <div class="pull-right"></div>
-                        <div class="clearfix"></div>
-                        <p></p>
-                        <p class="marked"></p>
-                        <p></p>
-                        <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/user/login</span></code></pre>
-                        <p>
-                          <h3>Usage and SDK Samples</h3>
-                        </p>
-                        <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-User-loginUser-0-curl">Curl</a></li>
-                          <li class=""><a href="#examples-User-loginUser-0-java">Java</a></li>
-                          <li class=""><a href="#examples-User-loginUser-0-android">Android</a></li>
-                          <!--<li class=""><a href="#examples-User-loginUser-0-groovy">Groovy</a></li>-->
-                          <li class=""><a href="#examples-User-loginUser-0-objc">Obj-C</a></li>
-                          <li class=""><a href="#examples-User-loginUser-0-javascript">JavaScript</a></li>
-                          <!--<li class=""><a href="#examples-User-loginUser-0-angular">Angular</a></li>-->
-                          <li class=""><a href="#examples-User-loginUser-0-csharp">C#</a></li>
-                          <li class=""><a href="#examples-User-loginUser-0-php">PHP</a></li>
-                          <li class=""><a href="#examples-User-loginUser-0-perl">Perl</a></li>
-                          <li class=""><a href="#examples-User-loginUser-0-python">Python</a></li>
-                        </ul>
-
-                        <div class="tab-content">
-                          <div class="tab-pane active" id="examples-User-loginUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://brian-scheduler.herokuapp.com/v1/user/login"</code></pre>
-                          </div>
-                          <div class="tab-pane" id="examples-User-loginUser-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.UserApi;
-
-import java.io.File;
-import java.util.*;
-
-public class UserApiExample {
-
-    public static void main(String[] args) {
-        
-        UserApi apiInstance = new UserApi();
-        Login body = ; // Login | User credentials
-        try {
-            apiInstance.loginUser(body);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling UserApi#loginUser");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-
-                          <div class="tab-pane" id="examples-User-loginUser-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
-
-public class UserApiExample {
-
-    public static void main(String[] args) {
-        UserApi apiInstance = new UserApi();
-        Login body = ; // Login | User credentials
-        try {
-            apiInstance.loginUser(body);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling UserApi#loginUser");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-  <!--
-  <div class="tab-pane" id="examples-User-loginUser-0-groovy">
-  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-  </div> -->
-                            <div class="tab-pane" id="examples-User-loginUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Login *body = ; // User credentials
-
-UserApi *apiInstance = [[UserApi alloc] init];
-
-// Logs user into the system
-[apiInstance loginUserWith:body
-              completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-loginUser-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var BrianScheduler = require('brian_scheduler');
-
-var api = new BrianScheduler.UserApi()
-
-var body = ; // {Login} User credentials
-
-
-var callback = function(error, data, response) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('API called successfully.');
-  }
-};
-api.loginUser(body, callback);
-</code></pre>
-                            </div>
-
-                            <!--<div class="tab-pane" id="examples-User-loginUser-0-angular">
-              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-            </div>-->
-                            <div class="tab-pane" id="examples-User-loginUser-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">using System;
-using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-
-namespace Example
-{
-    public class loginUserExample
-    {
-        public void main()
-        {
-            
-            var apiInstance = new UserApi();
-            var body = new Login(); // Login | User credentials
-
-            try
-            {
-                // Logs user into the system
-                apiInstance.loginUser(body);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling UserApi.loginUser: " + e.Message );
-            }
-        }
-    }
-}
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-loginUser-0-php">
-                              <pre class="prettyprint"><code class="language-php"><&#63;php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-$api_instance = new Swagger\Client\Api\UserApi();
-$body = ; // Login | User credentials
-
-try {
-    $api_instance->loginUser($body);
-} catch (Exception $e) {
-    echo 'Exception when calling UserApi->loginUser: ', $e->getMessage(), PHP_EOL;
-}
-?></code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-loginUser-0-perl">
-                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::UserApi;
-
-my $api_instance = WWW::SwaggerClient::UserApi->new();
-my $body = WWW::SwaggerClient::Object::Login->new(); # Login | User credentials
-
-eval { 
-    $api_instance->loginUser(body => $body);
-};
-if ($@) {
-    warn "Exception when calling UserApi->loginUser: $@\n";
-}</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-loginUser-0-python">
-                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = swagger_client.UserApi()
-body =  # Login | User credentials
-
-try: 
-    # Logs user into the system
-    api_instance.login_user(body)
-except ApiException as e:
-    print("Exception when calling UserApi->loginUser: %s\n" % e)</code></pre>
-                            </div>
-                          </div>
-
-                          <h2>Parameters</h2>
-
-
-
-                            <div class="methodsubtabletitle">Body parameters</div>
-                            <table id="methodsubtable">
-                              <tr>
-                                <th width="150px">Name</th>
-                                <th>Description</th>
-                              </tr>
-                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
-<td>
-
-
-<script>
-$(document).ready(function() {
-  var schemaWrapper = {
-  "in" : "body",
-  "name" : "body",
-  "description" : "User credentials",
-  "required" : true,
-  "schema" : {
-    "$ref" : "#/definitions/Login"
-  }
-};
-  var schema = schemaWrapper.schema;
-  if (schema.$ref != null) {
-    schema = defsParser.$refs.get(schema.$ref);
-  } else {
-    schemaWrapper.definitions = Object.assign({}, defs);
-    $RefParser.dereference(schemaWrapper).catch(function(err) {
-      console.log(err);
-    });
-  }
-
-  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
-  var result = $('#d2e199_loginUser_body');
-  result.empty();
-  result.append(view.render());
-});
-</script>
-<div id="d2e199_loginUser_body"></div>
-</td>
-</tr>
-
-                            </table>
-
-
-
-                          <h2>Responses</h2>
-                            <h3> Status: 200 - successful operation </h3>
+                            <h3> Status: 404 - Not found </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -4238,215 +4204,7 @@ $(document).ready(function() {
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 400 - Invalid username/password supplied </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                            </div>
-
-                        </article>
-                      </div>
-                      <hr>
-                    <div id="api-User-logoutUser">
-                      <article id="api-User-logoutUser-0" data-group="User" data-name="logoutUser" data-version="0">
-                        <div class="pull-left">
-                          <h1>logoutUser</h1>
-                          <p>Logs out current logged in user session</p>
-                        </div>
-                        <div class="pull-right"></div>
-                        <div class="clearfix"></div>
-                        <p></p>
-                        <p class="marked"></p>
-                        <p></p>
-                        <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/user/logout</span></code></pre>
-                        <p>
-                          <h3>Usage and SDK Samples</h3>
-                        </p>
-                        <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-User-logoutUser-0-curl">Curl</a></li>
-                          <li class=""><a href="#examples-User-logoutUser-0-java">Java</a></li>
-                          <li class=""><a href="#examples-User-logoutUser-0-android">Android</a></li>
-                          <!--<li class=""><a href="#examples-User-logoutUser-0-groovy">Groovy</a></li>-->
-                          <li class=""><a href="#examples-User-logoutUser-0-objc">Obj-C</a></li>
-                          <li class=""><a href="#examples-User-logoutUser-0-javascript">JavaScript</a></li>
-                          <!--<li class=""><a href="#examples-User-logoutUser-0-angular">Angular</a></li>-->
-                          <li class=""><a href="#examples-User-logoutUser-0-csharp">C#</a></li>
-                          <li class=""><a href="#examples-User-logoutUser-0-php">PHP</a></li>
-                          <li class=""><a href="#examples-User-logoutUser-0-perl">Perl</a></li>
-                          <li class=""><a href="#examples-User-logoutUser-0-python">Python</a></li>
-                        </ul>
-
-                        <div class="tab-content">
-                          <div class="tab-pane active" id="examples-User-logoutUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://brian-scheduler.herokuapp.com/v1/user/logout"</code></pre>
-                          </div>
-                          <div class="tab-pane" id="examples-User-logoutUser-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.UserApi;
-
-import java.io.File;
-import java.util.*;
-
-public class UserApiExample {
-
-    public static void main(String[] args) {
-        
-        UserApi apiInstance = new UserApi();
-        try {
-            apiInstance.logoutUser();
-        } catch (ApiException e) {
-            System.err.println("Exception when calling UserApi#logoutUser");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-
-                          <div class="tab-pane" id="examples-User-logoutUser-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
-
-public class UserApiExample {
-
-    public static void main(String[] args) {
-        UserApi apiInstance = new UserApi();
-        try {
-            apiInstance.logoutUser();
-        } catch (ApiException e) {
-            System.err.println("Exception when calling UserApi#logoutUser");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-  <!--
-  <div class="tab-pane" id="examples-User-logoutUser-0-groovy">
-  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-  </div> -->
-                            <div class="tab-pane" id="examples-User-logoutUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-UserApi *apiInstance = [[UserApi alloc] init];
-
-// Logs out current logged in user session
-[apiInstance logoutUserWithCompletionHandler: 
-              ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-logoutUser-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var BrianScheduler = require('brian_scheduler');
-
-var api = new BrianScheduler.UserApi()
-
-var callback = function(error, data, response) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('API called successfully.');
-  }
-};
-api.logoutUser(callback);
-</code></pre>
-                            </div>
-
-                            <!--<div class="tab-pane" id="examples-User-logoutUser-0-angular">
-              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-            </div>-->
-                            <div class="tab-pane" id="examples-User-logoutUser-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">using System;
-using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-
-namespace Example
-{
-    public class logoutUserExample
-    {
-        public void main()
-        {
-            
-            var apiInstance = new UserApi();
-
-            try
-            {
-                // Logs out current logged in user session
-                apiInstance.logoutUser();
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling UserApi.logoutUser: " + e.Message );
-            }
-        }
-    }
-}
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-logoutUser-0-php">
-                              <pre class="prettyprint"><code class="language-php"><&#63;php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-$api_instance = new Swagger\Client\Api\UserApi();
-
-try {
-    $api_instance->logoutUser();
-} catch (Exception $e) {
-    echo 'Exception when calling UserApi->logoutUser: ', $e->getMessage(), PHP_EOL;
-}
-?></code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-logoutUser-0-perl">
-                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::UserApi;
-
-my $api_instance = WWW::SwaggerClient::UserApi->new();
-
-eval { 
-    $api_instance->logoutUser();
-};
-if ($@) {
-    warn "Exception when calling UserApi->logoutUser: $@\n";
-}</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-logoutUser-0-python">
-                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = swagger_client.UserApi()
-
-try: 
-    # Logs out current logged in user session
-    api_instance.logout_user()
-except ApiException as e:
-    print("Exception when calling UserApi->logoutUser: %s\n" % e)</code></pre>
-                            </div>
-                          </div>
-
-                          <h2>Parameters</h2>
-
-
-
-
-
-
-                          <h2>Responses</h2>
-                            <h3> Status: default - Successful operation </h3>
+                            <h3> Status: 500 - Server error </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
