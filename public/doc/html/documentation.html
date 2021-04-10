@@ -945,9 +945,8 @@ public class AdminApiExample {
     public static void main(String[] args) {
         
         AdminApi apiInstance = new AdminApi();
-        Login body = ; // Login | Admin credentials
         try {
-            API result = apiInstance.getAdminStats(body);
+            API result = apiInstance.getAdminStats();
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AdminApi#getAdminStats");
@@ -964,9 +963,8 @@ public class AdminApiExample {
 
     public static void main(String[] args) {
         AdminApi apiInstance = new AdminApi();
-        Login body = ; // Login | Admin credentials
         try {
-            API result = apiInstance.getAdminStats(body);
+            API result = apiInstance.getAdminStats();
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AdminApi#getAdminStats");
@@ -980,13 +978,12 @@ public class AdminApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Admin-getAdminStats-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Login *body = ; // Admin credentials
-
+                              <pre class="prettyprint"><code class="language-cpp">
 AdminApi *apiInstance = [[AdminApi alloc] init];
 
 // Gets the API statistics
-[apiInstance getAdminStatsWith:body
-              completionHandler: ^(API output, NSError* error) {
+[apiInstance getAdminStatsWithCompletionHandler: 
+              ^(API output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -1002,9 +999,6 @@ AdminApi *apiInstance = [[AdminApi alloc] init];
 
 var api = new BrianScheduler.AdminApi()
 
-var body = ; // {Login} Admin credentials
-
-
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -1012,7 +1006,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.getAdminStats(body, callback);
+api.getAdminStats(callback);
 </code></pre>
                             </div>
 
@@ -1034,12 +1028,11 @@ namespace Example
         {
             
             var apiInstance = new AdminApi();
-            var body = new Login(); // Login | Admin credentials
 
             try
             {
                 // Gets the API statistics
-                API result = apiInstance.getAdminStats(body);
+                API result = apiInstance.getAdminStats();
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -1057,10 +1050,9 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\AdminApi();
-$body = ; // Login | Admin credentials
 
 try {
-    $result = $api_instance->getAdminStats($body);
+    $result = $api_instance->getAdminStats();
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AdminApi->getAdminStats: ', $e->getMessage(), PHP_EOL;
@@ -1074,10 +1066,9 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::AdminApi;
 
 my $api_instance = WWW::SwaggerClient::AdminApi->new();
-my $body = WWW::SwaggerClient::Object::Login->new(); # Login | Admin credentials
 
 eval { 
-    my $result = $api_instance->getAdminStats(body => $body);
+    my $result = $api_instance->getAdminStats();
     print Dumper($result);
 };
 if ($@) {
@@ -1094,11 +1085,10 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.AdminApi()
-body =  # Login | Admin credentials
 
 try: 
     # Gets the API statistics
-    api_response = api_instance.get_admin_stats(body)
+    api_response = api_instance.get_admin_stats()
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling AdminApi->getAdminStats: %s\n" % e)</code></pre>
@@ -1109,48 +1099,6 @@ except ApiException as e:
 
 
 
-                            <div class="methodsubtabletitle">Body parameters</div>
-                            <table id="methodsubtable">
-                              <tr>
-                                <th width="150px">Name</th>
-                                <th>Description</th>
-                              </tr>
-                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
-<td>
-
-
-<script>
-$(document).ready(function() {
-  var schemaWrapper = {
-  "in" : "body",
-  "name" : "body",
-  "description" : "Admin credentials",
-  "required" : true,
-  "schema" : {
-    "$ref" : "#/definitions/Login"
-  }
-};
-  var schema = schemaWrapper.schema;
-  if (schema.$ref != null) {
-    schema = defsParser.$refs.get(schema.$ref);
-  } else {
-    schemaWrapper.definitions = Object.assign({}, defs);
-    $RefParser.dereference(schemaWrapper).catch(function(err) {
-      console.log(err);
-    });
-  }
-
-  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
-  var result = $('#d2e199_getAdminStats_body');
-  result.empty();
-  result.append(view.render());
-});
-</script>
-<div id="d2e199_getAdminStats_body"></div>
-</td>
-</tr>
-
-                            </table>
 
 
 
@@ -1199,14 +1147,6 @@ $(document).ready(function() {
                             </div>
 
                             <h3> Status: 401 - Not authenticated </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                            </div>
-
-                            <h3> Status: 403 - Not authorized </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -1750,6 +1690,14 @@ except ApiException as e:
 
                           <h2>Responses</h2>
                             <h3> Status: 200 - Successful operation </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 400 - Invalid parameter </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2337,6 +2285,14 @@ $(document).ready(function() {
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
+                            <h3> Status: 404 - Not found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                             <h3> Status: 500 - Server error </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
@@ -2645,7 +2601,7 @@ $(document).ready(function() {
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 400 - Invalid ID supplied </h3>
+                            <h3> Status: 400 - Invalid parameter or body </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2695,7 +2651,7 @@ $(document).ready(function() {
                         <p class="marked"></p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/taskList/</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/taskList</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -2715,7 +2671,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-TaskList-addTaskList-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://brian-scheduler.herokuapp.com/v1/taskList/"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://brian-scheduler.herokuapp.com/v1/taskList"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-TaskList-addTaskList-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2971,7 +2927,7 @@ $(document).ready(function() {
                       <article id="api-TaskList-deleteTaskList-0" data-group="User" data-name="deleteTaskList" data-version="0">
                         <div class="pull-left">
                           <h1>deleteTaskList</h1>
-                          <p>Delete a task list</p>
+                          <p>Delete a task list and all tasks associated with it</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
@@ -3052,7 +3008,7 @@ public class TaskListApiExample {
 
 TaskListApi *apiInstance = [[TaskListApi alloc] init];
 
-// Delete a task list
+// Delete a task list and all tasks associated with it
 [apiInstance deleteTaskListWith:taskListID
               completionHandler: ^(NSError* error) {
                             if (error) {
@@ -3103,7 +3059,7 @@ namespace Example
 
             try
             {
-                // Delete a task list
+                // Delete a task list and all tasks associated with it
                 apiInstance.deleteTaskList(taskListID);
             }
             catch (Exception e)
@@ -3159,7 +3115,7 @@ api_instance = swagger_client.TaskListApi()
 taskListID = 56 # Integer | Task list ID to delete
 
 try: 
-    # Delete a task list
+    # Delete a task list and all tasks associated with it
     api_instance.delete_task_list(taskListID)
 except ApiException as e:
     print("Exception when calling TaskListApi->deleteTaskList: %s\n" % e)</code></pre>
@@ -3205,6 +3161,14 @@ except ApiException as e:
 
                           <h2>Responses</h2>
                             <h3> Status: 200 - Successful operation </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 400 - Invalid parameter </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -3856,6 +3820,14 @@ except ApiException as e:
                                   </div>
                                   <input id='responses-getUserByID-200-schema-data' type='hidden' value=''></input>
                                 </div>
+                            </div>
+
+                            <h3> Status: 400 - Invalid parameter </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
                             <h3> Status: 401 - Not authenticated </h3>
