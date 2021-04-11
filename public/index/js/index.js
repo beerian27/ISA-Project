@@ -12,6 +12,7 @@ $(document).ready(function () {
         $('#goBtn').click(() => {
             location.href = "/taskList"
         })
+        getNewToken();
         // Get the user data
         getUserData();
         // Check if user is an admin, if so display the admin option, else don't display it
@@ -42,6 +43,7 @@ const getNewToken = async () => {
         crossDomain: true,
         contentType: "application/json",
         success: function (res) {
+            console.log("received new token");
             Cookies.set("aToken", res.accessToken);
         },
         error: function (xhr, status, err) {

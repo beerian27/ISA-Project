@@ -349,12 +349,14 @@ const renderCurrentTasks = (taskList) => {
                     $('#editModal').modal('show');
                     // Give each save button in the modal this on click
                     $('#editSaveBtn').click(() => {
+                        
                         // Obtain the values from the input fields
                         let updatedName = $('#editTaskName').val();
                         let updatedDescription = $('#editTaskDescription').val();
                         // Create a request body
                         let req = { taskName: updatedName, taskDescription: updatedDescription, isComplete: taskList[i].isComplete }
                         // PUT request to edit the task
+                        console.log("editsave", req);
                         $.ajax({
                             type: "PUT",
                             url: `https://brian-scheduler.herokuapp.com/v1/task/${taskList[i].taskID}`,
@@ -372,6 +374,7 @@ const renderCurrentTasks = (taskList) => {
                                 // Unbind click events
                                 $('#editBtn').unbind('click')
                                 $('#editSaveBtn').unbind('click')
+                                $('#dltBtn').unbind('click')
                                 return;
                             },
                             error: async (xhr, status, err) => {

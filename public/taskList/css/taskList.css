@@ -93,10 +93,14 @@ span.taskName {
 .todoTaskContainer {
     border-radius: 1rem;
 }
+.description {
+    overflow: hidden;
+}
 .todoTask {
     display: block !important;
     width: 80%;
     text-align: left;
+    overflow: hidden;
 }
 div.todoTask {
     padding: 1em;
