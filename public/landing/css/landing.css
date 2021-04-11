@@ -1,6 +1,10 @@
+/* Body styling */
 body {
     background-color: rgb(216, 216, 216);
+    display: none;
 }
+
+/* Content container styling */
 #content {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -9,25 +13,25 @@ body {
     align-content: center;
     justify-content: center;
 }
-
 #detail {
     display: inline;
     grid-column-start: 1;
     grid-column-end: 1;
 }
-
 #text {
     justify-content: center;
     padding: 2em;
     top: 50%;
 }
 
+/* Options Container */
 #options {
     padding-top: 1em;
     text-align: center;
     margin-top: 1em;
 }
 
+/* Image styling */
 #imgContainer {
     text-align: center;
     padding: 1.5em;
@@ -38,8 +42,8 @@ img {
     border-radius: 1rem;
 }
 
-
-@media only screen and (min-device-width: 374px) and (max-device-height: 900px){
+/* Media queries for responsiveness */
+@media only screen and (max-device-width: 750px) and (max-device-height: 900px){
     #content {
         display: block;
     }
@@ -53,4 +57,3 @@ img {
         max-width: 200px;
     }
 }
-    

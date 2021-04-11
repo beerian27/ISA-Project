@@ -1,5 +1,6 @@
+// When document is ready
 $(document).ready(function() {
-    console.log("ready");
+
     // Submit button's onclick
     $("#submitBtn").click(function() {
         // Loading spinner
@@ -40,7 +41,7 @@ $(document).ready(function() {
         // POST Call for registration
         $.ajax({
             type: "POST",
-            url: "https://brian-scheduler.herokuapp.com/user",
+            url: 'https://brian-scheduler.herokuapp.com/user',
             data: JSON.stringify(userData),
             crossDomain: true,
             contentType: "application/json",
@@ -51,17 +52,18 @@ $(document).ready(function() {
                 login.password = password;
                 $.ajax({
                     type: "POST",
-                    url: "https://brian-scheduler.herokuapp.com/login",
+                    url: 'https://brian-scheduler.herokuapp.com/login',
                     data: JSON.stringify(login),
                     crossDomain: true,
                     contentType: "application/json",
                     success: function(res) {
+                        console.log("success")
                         Cookies.set('aToken', res.accessToken);
                         Cookies.set('rToken', res.refreshToken);
                         Cookies.set('uid', res.user.userID);
                         location.href = "/welcome"
                     },
-                    error: function(xr, status, err) {
+                    error: function(xhr, status, err) {
                         console.log(xhr, status, err);
                         if (xhr.status === 400) {
                             alert("The credentials you have entered don't seem to match what we have. Please try again.");

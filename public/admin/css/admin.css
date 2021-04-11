@@ -1,8 +1,10 @@
+/* Header Div */
 #header {
    padding: 1em;
    text-align: center;
 }
 
+/* Row Divs */
 div.row {
     margin-top: 1em;
     background-color: rgb(226, 226, 226);
@@ -10,17 +12,21 @@ div.row {
     border-radius: 1rem;
 }
 
+/* Initially set to none, will be changed dynamically */
+#content {
+    display: none;
+}
+
+/* Table Styling */
 table {
     width: 30%;
 }
-
 .tableSubheader {
     text-align: center;
     font-weight: bold;
     background-color: rgba(66, 66, 66, 0.5);
     color: white;
 }
-
 tr {
     background-color: white;
 }

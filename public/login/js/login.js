@@ -27,7 +27,7 @@ $(document).ready(function() {
         // POST Call for login
         $.ajax({
             type: "POST",
-            url: "https://brian-scheduler.herokuapp.com/login",
+            url: 'https://brian-scheduler.herokuapp.com/login',
             data: JSON.stringify(userData),
             crossDomain: true,
             contentType: "application/json",
@@ -35,6 +35,8 @@ $(document).ready(function() {
                 Cookies.set('aToken', res.accessToken);
                 Cookies.set('rToken', res.refreshToken);
                 Cookies.set('uid', res.user.userID);
+                console.log(res)
+                Cookies.set('admin', res.user.isAdmin);
                 location.href = "/welcome"
             },
             error: function(xhr, status, err) {
