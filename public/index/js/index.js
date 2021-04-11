@@ -123,29 +123,6 @@ const getYesterday = () => {
                 await getNewToken()
                 // Re-run function
                 getYesterday();
-                // $.ajax({
-                //     type: "POST",
-                //     url: `https://brian-scheduler.herokuapp.com/token`,
-                //     crossDomain: true,
-                //     contentType: 'application/json',
-                //     data: JSON.stringify(Cookies.get("rToken")),
-                //     success: function (res) {
-                //         Cookies.set("aToken", res.accessToken);
-                //     },
-                //     error: function (xhr, status, err) {
-                //         if (xhr.status === 403) {
-                //             alert("You are unauthorized for this session. Please login again.");
-                //             onClickLogout();
-                //             return;
-                //         }
-
-                //         if (xhr.status === 500) {
-                //             alert("Something went wrong on our end, please log-in and try again.");
-                //             onClickLogout();
-                //             return;
-                //         }
-                //     }
-                // })
             }
 
             // Error 404: Not found -> Therefore there was no tasklist yesterday. Tell the user this
@@ -287,34 +264,6 @@ const checkForTaskList = () => {
         error: async (xhr, status, err) => {
             // Error 403: Need to refresh token
             if (xhr.status === 403) {
-                // $.ajax({
-                //     type: "POST",
-                //     url: `https://brian-scheduler.herokuapp.com/token`,
-                //     crossDomain: true,
-                //     contentType: 'application/json',
-                //     data: JSON.stringify(Cookies.get("rToken")),
-                //     success: function (res) {
-                //         // Successfully obtained a new access token, run function again
-                //         Cookies.set("aToken", res.accessToken);
-                //         checkForTaskList();
-                //         return;
-                //     },
-                //     error: function (xhr, status, err) {
-                //         // 403: The refresh token is invalid
-                //         if (xhr.status === 403) {
-                //             alert("You are unauthorized for this session. Please login again.");
-                //             onClickLogout();
-                //             return;
-                //         }
-
-                //         // Something went wrong on our end.
-                //         if (xhr.status === 500) {
-                //             alert("Something went wrong on our end, please log-in and try again.");
-                //             onClickLogout();
-                //             return;
-                //         }
-                //     }
-                // })
                 await getNewToken();
                 checkForTaskList();
             }
@@ -341,6 +290,7 @@ const checkForTaskList = () => {
 
         },
         success: (res) => {
+            console.log(res);
             // Success case, so there is a task list for today
             // set tasklistId in cookies for ease
             Cookies.set("taskList", res.taskListID);

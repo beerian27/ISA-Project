@@ -146,6 +146,7 @@ const onClickNewTask = () => {
         success: (res) => {
             // Obtain task list
             getTasks();
+            location.href="/taskList"
         }
     });
 }
@@ -288,6 +289,7 @@ const getTasks = () => {
             // Success case, so there is a task list for today
             // set tasklistId in cookies for ease
             Cookies.set("taskList", res.taskListID);
+            console.log(res);
 
             // Make loader invisible, make content visible
             $("#loader").css("display", "none");
@@ -405,6 +407,7 @@ const renderCurrentTasks = (taskList) => {
 
                 // Give delete button in modal this click function
                 $('#dltBtn').click(() => {
+                    console.log("dltbtn", taskList[i]);
                     // Delete the task
                     $.ajax({
                         type: "DELETE",
@@ -457,6 +460,7 @@ const renderCurrentTasks = (taskList) => {
 
             // add listeners to the check boxes
             $(`input.checkbox-${i}`).change(() => {
+                console.log(taskList[i]);
                 // mark a task as complete
                 $.ajax({
                     type: "PUT",
@@ -552,8 +556,8 @@ const onClickSave = (() => {
     let incomplete = [];
     $.each(taskNames, (index, ele) => {
         // Check for incomplete new tasks
-        if (ele.trim().length !== 0) {
-            tasks.push({ taskName: ele, taskDescription: taskDescs[index], isComplete: false, taskListID: Cookies.get('taskList') });
+        if (ele.trim().length !== 0 && taskDescs[index].trim().length !== 0) {
+            tasks.push({ taskName: ele, taskDescription: taskDescs[index], isComplete: false, taskListID: parseInt(Cookies.get('taskList')) });
         } else {
             incomplete.push(index + 1);
         }
@@ -561,12 +565,13 @@ const onClickSave = (() => {
 
     // If there are incomplete tasks, alert user to fill them out
     if (incomplete.length > 0) {
-        let prompt = `Tasks: ${incomplete.join(", ")} do not have task names. This field is required`;
+        let prompt = `New Task(s): ${incomplete.join(", ")} are missing fields. All fields are required`;
         alert(prompt)
     }
 
     // Loop through and posts tasks
     $.each(tasks, (index, ele) => {
+        console.log(ele)
         postTask(ele);
     });
 });
@@ -597,6 +602,7 @@ const postTask = (task) => {
                 case 500:
                 // invalid input
                 case 400: {
+                    console.log(xhr)
                     alert("Something went wrong on our end, please log-in and try again");
                     onClickLogout();
                     return;
