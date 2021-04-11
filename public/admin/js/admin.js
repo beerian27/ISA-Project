@@ -6,6 +6,7 @@ $(document).ready(function () {
         location.href = "/"
     } else {
         if (Cookies.get("admin") === "1") {
+            $('#error').css('display', 'none')
             getAdminData();
         }
     }
